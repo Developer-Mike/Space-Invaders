@@ -1,4 +1,5 @@
 import pygame
+
 from EventListener import EventListener
 from Laser import Laser
 from RenderObject import RenderObject
@@ -44,3 +45,6 @@ class Player(EventListener, RenderObject):
             self.rect.centerx = self.x_bounds[1]
 
         surface.blit(self.sprite, self.rect)
+
+    def damage(self, damage_pos):
+        print("aua")

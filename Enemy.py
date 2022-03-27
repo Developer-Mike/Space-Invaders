@@ -1,10 +1,13 @@
+import random
 import pygame
-from EventListener import EventListener
+
+from EnemyLaser import EnemyLaser
 from RenderObject import RenderObject
 
 
 class Enemy(RenderObject):
     size = (40, 30)
+    shoot_probability = 5
     move_interval = 30  # 0.5sec
     move_distance_x = 20
     move_distance_y = 50
@@ -45,10 +48,14 @@ class Enemy(RenderObject):
 
             self.rect.move_ip(self.move_distance_x * self.move_direction, 0)
 
+            if random.randint(0, 100) < self.shoot_probability:
+                EnemyLaser(self.game, (self.rect.centerx, self.rect.y + self.size[1]))
+
         surface.blit(self.current_sprite, self.rect)
 
     def damage(self, collision_pos):
         self.game.render_objects.remove(self)
+        self.game.enemies.remove(self)
 
     def change_y(self):
         self.move_direction = self.move_direction * -1

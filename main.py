@@ -7,26 +7,27 @@ from RenderObject import RenderObject
 from Shield import Shield
 
 fps = 60
-screen_size = (1250, 750)
 
 
 class Game:
+    screen_size = (1250, 750)
+
     def __init__(self):
         self.event_listeners: list[EventListener] = []
         self.render_objects: list[RenderObject] = []
 
         pygame.init()
         self.clock = pygame.time.Clock()
-        self.surface = pygame.display.set_mode(screen_size)
+        self.surface = pygame.display.set_mode(self.screen_size)
 
         # Init objects
         self.player = Player(self)
-        self.shields = [Shield(self, (x, 550)) for x in range(125, screen_size[0] + 1, 300)]
+        self.shields = [Shield(self, (x, 550)) for x in range(125, self.screen_size[0] + 1, 300)]
 
         enemy_y = 100
         self.enemies = []
         for score in (30, 20, 20, 10, 10):
-            self.enemies.extend([Enemy(self, (x, enemy_y), score) for x in range(200, screen_size[0] - 200, 100)])
+            self.enemies.extend([Enemy(self, (x, enemy_y), score) for x in range(200, self.screen_size[0] - 200, 100)])
             enemy_y += 60
 
         while True:

@@ -1,4 +1,6 @@
 import pygame
+
+from Enemy import Enemy
 from EventListener import EventListener
 from Player import Player
 from RenderObject import RenderObject
@@ -20,6 +22,12 @@ class Game:
         # Init objects
         self.player = Player(self)
         self.shields = [Shield(self, (x, 550)) for x in range(125, screen_size[0] + 1, 300)]
+
+        enemy_y = 100
+        self.enemies = []
+        for score in (30, 20, 20, 10, 10):
+            self.enemies.extend([Enemy(self, (x, enemy_y), score) for x in range(200, screen_size[0] - 200, 100)])
+            enemy_y += 60
 
         while True:
             self.tick()

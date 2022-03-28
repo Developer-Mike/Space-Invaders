@@ -13,6 +13,8 @@ class Game:
     screen_size = (1250, 750)
 
     def __init__(self):
+        self.playing = True
+
         self.event_listeners: list[EventListener] = []
         self.render_objects: list[RenderObject] = []
 
@@ -31,6 +33,10 @@ class Game:
             enemy_y += 60
 
         while True:
+            if not self.playing:
+                Game()
+                break
+
             self.tick()
 
             pygame.display.update()
@@ -49,6 +55,10 @@ class Game:
 
         for render_object in self.render_objects:
             render_object.tick(self.surface)
+
+    def restart(self):
+        self.playing = False
+        self.clock.tick(2)
 
 
 if __name__ == '__main__':

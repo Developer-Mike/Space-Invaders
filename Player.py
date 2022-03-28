@@ -12,12 +12,20 @@ class Player(EventListener, RenderObject):
     y = 650
     x_bounds = (100, 1150)
 
+    life_size = (66, 50)
+    life_distance = 75
+    life_pos = (25, 25)
+
     def __init__(self, game):
         self.game = game
         self.shoot_timer = 0
 
         game.render_objects.append(self)
         game.event_listeners.append(self)
+
+        self.lives = 3
+        self.life_sprite = pygame.transform.scale(pygame.image.load("assets/laser.webp"), self.life_size)
+        self.life_rect = self.life_sprite.get_rect()
 
         self.sprite = pygame.transform.scale(pygame.image.load("assets/laser.webp"), self.size)
         self.rect = self.sprite.get_rect()
@@ -46,5 +54,17 @@ class Player(EventListener, RenderObject):
 
         surface.blit(self.sprite, self.rect)
 
+        self.render_lives(surface)
+
+    def render_lives(self, surface):
+        current_life_rect = self.life_rect.copy().move(self.life_pos)
+
+        for _ in range(self.lives):
+            surface.blit(self.life_sprite, current_life_rect)
+            current_life_rect.move_ip(self.life_distance, 0)
+
     def damage(self, damage_pos):
-        print("aua")
+        self.lives -= 1
+
+        if self.lives == 0:
+            self.game.restart()

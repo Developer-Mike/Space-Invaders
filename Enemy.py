@@ -57,6 +57,8 @@ class Enemy(RenderObject):
         self.game.render_objects.remove(self)
         self.game.enemies.remove(self)
 
+        self.game.score += self.points
+
     def change_y(self):
         self.move_direction = self.move_direction * -1
         self.rect.move_ip(0, self.move_distance_y)

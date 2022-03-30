@@ -14,6 +14,7 @@ class Game:
 
     def __init__(self):
         self.playing = True
+        self.score = 0
 
         self.event_listeners: list[EventListener] = []
         self.render_objects: list[RenderObject] = []
@@ -55,6 +56,19 @@ class Game:
 
         for render_object in self.render_objects:
             render_object.tick(self.surface)
+
+        self.render_score()
+
+    def render_score(self):
+        font = pygame.font.Font(None, 60)
+        text = font.render(str(self.score), True, (255, 255, 255))
+
+        text_rect = text.get_rect()
+        text_rect.centery = 30
+        text_rect.right = self.screen_size[0] - text_rect.width / 2 - 15
+        text_rect.right += text_rect.width / 2
+
+        self.surface.blit(text, text_rect)
 
     def restart(self):
         self.playing = False
